@@ -1,0 +1,99 @@
+/* Mengatur ukuran card dan gambar pada tampilan desktop */
+.card {
+    width: 100%; /* Membuat card responsif */
+    height: auto; /* Tinggi card mengikuti konten */
+    max-width: 157px; /* Maksimal lebar card */
+    margin: auto; /* Center card horizontally */
+}
+
+.card-img-top {
+    width: 100%; /* Gambar mengisi card secara penuh */
+    height: 225px; /* Sesuaikan tinggi gambar agar seragam */
+    object-fit: cover; /* Pastikan gambar proporsional */
+}
+
+/* Hapus garis bawah pada tautan */
+a {
+    text-decoration: none;
+}
+
+.header .logo {
+    margin-left: 0; /* Menghapus margin kiri jika ada */
+}
+
+.header .logo span {
+    padding-left: 0; /* Menghapus padding kiri jika ada */
+}
+
+.book-cover {
+    width: 100%;
+    height: 225px; /* Sesuaikan tinggi gambar agar seragam */
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    text-align: center;
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #ff5733;
+    font-size: 1rem;
+}
+i{
+    font-size: 25px;
+}
+
+@media (max-width: 768px) {
+    /* Menampilkan 3 kolom di mobile */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Center items horizontally */
+    }
+
+    .col {
+        flex: 1 0 33.33%; /* Atur lebar card agar sesuai dengan 3 kolom */
+        margin: 2px; /* Jarak antar card */
+    }
+
+    .card {
+        height: auto; /* Tinggi card mengikuti konten */
+        max-width: 100%; /* Pastikan card tidak melampaui lebar kontainer */
+    }
+
+    .card-img-top,
+    .book-cover {
+        width: 100%; /* Gambar mengisi card secara penuh */
+        height: auto; /* Sesuaikan tinggi gambar secara otomatis */
+        object-fit: cover; /* Pastikan gambar proporsional */
+    }
+
+    .card-title {
+        font-size: 0.7rem; /* Sesuaikan ukuran font judul agar sesuai dengan ukuran card */
+    }
+
+    .card-text {
+        font-size: 0.65rem; /* Sesuaikan ukuran font harga agar sesuai dengan ukuran card */
+    }
+
+    .card-body {
+        padding: 5px; /* Sesuaikan padding card body agar proporsional */
+    }
+}
