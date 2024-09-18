@@ -1,8 +1,4 @@
-@extends('layout.footer')
 
-
-@extends('layout.content')
-@section('content')
 
 @extends('layout.footer')
 
@@ -81,6 +77,3 @@
 @extends('layout.header')
 
 
-@endsection
-
-@extends('layout.header')

@@ -25,6 +25,11 @@
               <i class="bi bi-circle"></i><span>Data Buku</span>
             </a>
           </li>
+          <li>
+            <a href="/data-kelas">
+              <i class="bi bi-circle"></i><span>Data Kelas</span>
+            </a>
+          </li>
           
         </ul>
         

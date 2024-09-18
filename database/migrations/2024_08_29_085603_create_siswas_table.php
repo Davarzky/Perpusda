@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama' ,50)->nullable();
             $table->string('alamat' ,100)->nullable();
             $table->string('no_telp' ,13)->nullable();
-            $table->string('kelas' ,13)->nullable();
+            $table->string('kode_kelas' ,13)->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->primary('nis');
 

@@ -1,21 +1,24 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\SiswaModel;
+use App\Models\KelasModel;
 use Illuminate\Http\Request;
 
 class SiswaController extends Controller
 {
     public function main(){
-        $data_siswa = SiswaModel::all();
+        $data_siswa = SiswaModel::with('kelas')->get();
         return view('pages.siswa.index', [
             'data_siswa' => $data_siswa
         ]);
     }
 
     public function add(){
-        return view('pages.siswa.tambah');
+        $kelass = KelasModel::all(); // Fetch all classes for the dropdown
+        return view('/pages.siswa.tambah', [
+            'kelass' => $kelass
+        ]);
     }
 
     public function save(Request $request){
@@ -24,18 +27,20 @@ class SiswaController extends Controller
             'nama' => 'required',
             'alamat' => 'required',
             'no_telp' => 'required|max:13',
-            'kelas' => 'required'
+            'kode_kelas' => 'required' // Ensure you use `kode_kelas` here
         ]);
 
         SiswaModel::create($request->all());
 
-        return redirect('pages.siswa.index');
+        return redirect('/data-siswa');
     }
 
     public function edit($nis){
         $siswa = SiswaModel::findOrFail($nis);
-        return view('siswa.update', [
-            'dataSiswa' => $siswa
+        $kelass = KelasModel::all(); // Fetch all classes for the dropdown
+        return view('/pages.siswa.edit', [ // Ensure this matches your Blade template path
+            'dataSiswa' => $siswa,
+            'kelass' => $kelass
         ]);
     }
 
@@ -45,19 +50,19 @@ class SiswaController extends Controller
             'nama' => 'required',
             'alamat' => 'required',
             'no_telp' => 'required|max:13',
-            'tanggal_lahir' => 'required',
-            'kelas' => 'required'
+            'tanggal_lahir' => 'required|date',
+            'kode_kelas' => 'required' 
         ]);
 
         $siswa = SiswaModel::findOrFail($nis);
-        $siswa->update($request->all());
+        $siswa->update($request->except('_token')); // Avoid updating the NIS field
 
-        return redirect('pages.siswa.index');
+        return redirect('/data-siswa');
     }
 
     public function delete($nis){
         $siswa = SiswaModel::findOrFail($nis);
         $siswa->delete();
-        return redirect('pages.siswa.index');
+        return redirect('/data-siswa');
     }
 }

@@ -11,25 +11,25 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/assets/img/favicon.png" rel="icon">
+  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
   @yield('css')
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="/assets/css/style.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -80,42 +80,27 @@
 <div class="container py-4">
     <div class="collapse" id="menuBar">
         <div class="row">
-            <div class="col-md-4 col-12">
-                <h5>Buku</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#terbaru">Agama</a></li>
-                    <li><a href="#">Hukum</a></li>
-                    <li><a href="#">Ilmu Sosial</a></li>
-                    <li><a href="#">Ilmu Alam</a></li>
-                    <li><a href="#">Bahasa</a></li>
-                    <li><a href="#">Sejarah</a></li>
-                    <li><a href="#">Seni</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 col-12">
-                <h5>Majalah</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#">Alam & Gaya Bahasa</a></li>
-                    <li><a href="#">Biografi & Autobiografi</a></li>
-                    <li><a href="#">Desain</a></li>
-                    <li><a href="#">Fiksi</a></li>
-                    <li><a href="#">Filsafat</a></li>
-                    <li><a href="#">Olahraga</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 col-12">
-                <h5>Novel</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#">Geografi</a></li>
-                    <li><a href="#">Matematika</a></li>
-                    <li><a href="#">Puisi</a></li>
-                </ul>
-            </div>
+            @if(isset($kategoris) && $kategoris->isNotEmpty())
+                @foreach($kategoris as $kategori)
+                    <div class="col-md-4 col-12">
+                        <h5>{{ $kategori->nama_kategori }}</h5>
+                        <ul class="list-unstyled">
+                            @foreach($kategori->bukus as $buku)
+                                <li>
+                                    <a href="{{ route('kategori.show', $kategori->kode_kategori) }}">{{ $buku->judul }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            @else
+                <p>No categories available.</p>
+            @endif
         </div>
     </div>
 </div>
 
-      @yield('content')
+@yield('content')
 
 
 
