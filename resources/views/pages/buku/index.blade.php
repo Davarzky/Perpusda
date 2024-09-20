@@ -1,3 +1,4 @@
+
 @extends('layout.footer')
 @extends('layout.content')
 
@@ -18,11 +19,11 @@
         </thead>
         <tbody>
             @php
-                $counter = 1; // Initialize counter
+                $counter = ($buku->currentPage() - 1) * $buku->perPage() + 1; // Adjust counter for pagination
             @endphp
             @foreach ($buku as $bk)
                 <tr>
-                    <th scope="row">{{ $counter++ }}</th> <!-- Increment counter for each row -->
+                    <th scope="row">{{ $counter++ }}</th>
                     <td>
                         @if ($bk->gambar)
                             <img src="{{ asset('storage/' . $bk->gambar) }}" alt="{{ $bk->judul }}" class="img-thumbnail" style="width: 100px;">
@@ -45,6 +46,12 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Tampilkan Pagination Links -->
+    <div class="d-flex justify-content-center">
+        {{ $buku->links('pagination::bootstrap-4') }} <!-- Bootstrap 4 Pagination Links -->
+    </div>
+    
 </div>
 @endsection
 @extends('layout.header')

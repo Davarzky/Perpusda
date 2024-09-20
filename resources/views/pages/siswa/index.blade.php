@@ -28,7 +28,7 @@
         <tbody>
             @foreach($data_siswa as $siswa)
             <tr>
-                <th scope="row">{{ $loop->iteration }}</th>
+                <th scope="row">{{ $loop->iteration + ($data_siswa->currentPage() - 1) * $data_siswa->perPage() }}</th> <!-- Adjust numbering -->
                 <td>{{ $siswa->nis }}</td>
                 <td>{{ $siswa->nama }}</td>
                 <td>{{ $siswa->alamat }}</td>
@@ -42,7 +42,12 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Pagination Links -->
+    <div class="d-flex justify-content-center">
+        {{ $data_siswa->links('pagination::bootstrap-4') }}
+<!-- Tampilkan pagination -->
+    </div>
 </div>
 @endsection
-
 @extends('layout.header')

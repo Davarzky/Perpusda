@@ -17,6 +17,7 @@ class SiswaModel extends Model
     public $incrementing = false; 
     protected $guarded = [];
 
+
     public function kelas()
     {
         return $this->belongsTo(KelasModel::class, 'kode_kelas', 'kode_kelas');

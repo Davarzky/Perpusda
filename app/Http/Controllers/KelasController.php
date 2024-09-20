@@ -9,7 +9,7 @@ class KelasController extends Controller
     // Display the list of classes
     public function main()
     {
-        $data_kelas = KelasModel::all(); // Fetch all classes
+        $data_kelas =  KelasModel::paginate(8); // Fetch all classes
     return view('pages.kelas.index', [
         'data_kelas' => $data_kelas // Pass variable to view
     ]);

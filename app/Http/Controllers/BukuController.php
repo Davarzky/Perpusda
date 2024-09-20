@@ -11,7 +11,7 @@ class BukuController extends Controller
 {
     public function index()
     {
-        $buku = BukuModel::all();
+        $buku = BukuModel::paginate(5);  
         return view('pages.buku.index', compact('buku'));
     }
 
@@ -126,6 +126,17 @@ public function update(Request $request, $kode_buku)
 
     return view('pages.user.search', compact('buku', 'kategoris', 'kategoriBuku'));
 }
+public function show($kode_buku)
+    {
+        $buku = BukuModel::where('kode_buku', $kode_buku)->firstOrFail();
+
+        return response()->json([
+            'kode_buku' => $buku->kode_buku,
+            'judul' => $buku->judul,
+            'jumlah' => $buku->jumlah
+        ]);
+    }
+
 
  
 

@@ -8,13 +8,11 @@ use App\Models\AdminModel;
 
 class AuthController extends Controller
 {
-    // Show login form
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Handle login
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -24,16 +22,22 @@ class AuthController extends Controller
 
         $admin = AdminModel::where('username', $credentials['username'])->first();
         
-        // Periksa password dalam format teks biasa (TIDAK AMAN)
         if ($admin && $credentials['password'] === $admin->password) {
             Auth::guard('admin')->login($admin);
-            return redirect()->route('admin.index')->with('success', 'Login berhasil.');
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard'))->with('success', 'Login berhasil.');
         }
 
         return back()->withErrors([
             'username' => 'Kredensial yang diberikan tidak sesuai.',
-        ]);
+        ])->onlyInput('username');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('user.index');
     }
 }
-
-

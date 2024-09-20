@@ -40,7 +40,7 @@
         </a>
         <ul id="components-trans" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/data-peminjaman">
+            <a href="/peminjaman">
               <i class="bi bi-circle"></i><span>Peminjaman</span>
             </a>
           </li>

@@ -1,74 +1,55 @@
 @extends('layout.footer')
-
 @extends('layout.content')
+
 @section('content')
-<div class="container">
-    <h2>Detail Peminjaman</h2>
-    
-    <a href="/create-peminjaman"><button type="button" class="btn btn-primary mb-3">Tambah Peminjaman</button></a>
-    <table class="table">
+<div class="container mt-4">
+    <h2>Data Peminjaman</h2>
+    <a href="{{ url('/peminjaman/tambah') }}" class="btn btn-primary mb-3">Tambah Peminjaman</a>
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">ID Peminjaman</th>
-                <th scope="col">Judul</th>
-                <th scope="col">Jumlah</th>
-                <th scope="col">Actions</th>
+                <th>No.</th> <!-- Ganti ID dengan No. -->
+                <th>NIS</th>
+                <th>Tanggal Pinjam</th>
+                <th>Tanggal Kembali</th>
+                <th>Detail</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>PMJ001</td>
-                <td>Dilan 1990</td>
-                <td>2</td>
-                <td>
-                    <a href="/view-peminjaman/PMJ001"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-peminjaman/PMJ001" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>PMJ002</td>
-                <td>Filosofi Teras</td>
-                <td>1</td>
-                <td>
-                    <a href="/view-peminjaman/PMJ002"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-peminjaman/PMJ002" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>PMJ003</td>
-                <td>Atomic Habits</td>
-                <td>3</td>
-                <td>
-                    <a href="/view-peminjaman/PMJ003"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-peminjaman/PMJ003" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">4</th>
-                <td>PMJ004</td>
-                <td>Psychology Of Money</td>
-                <td>1</td>
-                <td>
-                    <a href="/view-peminjaman/PMJ004"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-peminjaman/PMJ004" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">5</th>
-                <td>PMJ005</td>
-                <td>Milea Suara dari Dilan</td>
-                <td>2</td>
-                <td>
-                    <a href="/view-peminjaman/PMJ005"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-peminjaman/PMJ005" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
+            @foreach($peminjaman as $index => $item) <!-- Tambahkan variabel $index -->
+                <tr>
+                    <td>{{ $index + $peminjaman->firstItem() }}</td> <!-- Tampilkan nomor urut -->
+                    <td>{{ $item->nisn }}</td>
+                    <td>{{ $item->tanggal_pinjam }}</td>
+                    <td>{{ $item->tanggal_kembali }}</td>
+                    <td>
+                        <a href="{{ url('/peminjaman/' . $item->id) }}" class="btn btn-info btn-sm">Detail</a>
+                    </td>
+                    <td>
+                        <a href="{{ url('/peminjaman/edit/' . $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ url('/peminjaman/delete/' . $item->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        {{ $peminjaman->links('pagination::bootstrap-4') }} <!-- Ini untuk menampilkan navigasi pagination -->
+    </div>
 </div>
 @endsection
 

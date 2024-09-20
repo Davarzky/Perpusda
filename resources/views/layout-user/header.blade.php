@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,67 +41,76 @@
 
 <body>
 
-    
-   <header id="header" class="header fixed-top d-flex align-items-center">
+  <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center">
-            <span class="d-block d-md-none">PERPUSDA</span>
-            <span class="d-none d-md-block">PERPUSDA</span>
-        </a>  
+      <a href="index.html" class="logo d-flex align-items-center">
+        <span class="d-block d-md-none">PERPUSDA</span>
+        <span class="d-none d-md-block">PERPUSDA</span>
+      </a>  
 
-        <!-- Toggle Button -->
-        <i class="bi bi-list toggle-header-btn" data-bs-toggle="collapse" data-bs-target="#menuBar"></i>
+      <!-- Toggle Button -->
+      <i class="bi bi-list toggle-header-btn" data-bs-toggle="collapse" data-bs-target="#menuBar"></i>
 
-        <!-- Profile Dropdown -->
-        <nav class="header-nav ms-auto d-none d-md-flex">
-            <ul class="d-flex align-items-center mb-0">
-                <li class="nav-item dropdown pe-3">
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <!-- Add an icon or profile picture here if needed -->
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>Dava Rizky</h6>
-                            <span>Junior Developer</span>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="/profile"><i class="bi bi-person"></i> <span>My Profile</span></a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></a></li>
-                    </ul>
-                </li>
+      <!-- Profile Dropdown and Login Button -->
+      <nav class="header-nav ms-auto d-flex align-items-center">
+        <ul class="d-flex align-items-center mb-0">
+          <!-- Login Button -->
+          <li class="nav-item me-2">
+            <a class="btn btn-primary" href="{{ route('admin.login.form') }}">Login</a>
+          </li>
+
+          <!-- Profile Dropdown -->
+          <li class="nav-item dropdown pe-3">
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <!-- Add an icon or profile picture here if needed -->
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>Dava Rizky</h6>
+                <span>Junior Developer</span>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item d-flex align-items-center" href="/profile"><i class="bi bi-person"></i> <span>My Profile</span></a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                  @csrf
+                </form>
+              </li>
             </ul>
-        </nav>
+          </li>
+        </ul>
+      </nav>
     </div>
-</header>
+  </header>
 
-<!-- Menu Bar -->
-<div class="container py-4">
+  <!-- Menu Bar -->
+  <div class="container py-4">
     <div class="collapse" id="menuBar">
-        <div class="row">
-            @if(isset($kategoris) && $kategoris->isNotEmpty())
-                @foreach($kategoris as $kategori)
-                    <div class="col-md-4 col-12">
-                        <h5>{{ $kategori->nama_kategori }}</h5>
-                        <ul class="list-unstyled">
-                            @foreach($kategori->bukus as $buku)
-                                <li>
-                                    <a href="{{ route('kategori.show', $kategori->kode_kategori) }}">{{ $buku->judul }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endforeach
-            @else
-                <p>No categories available.</p>
-            @endif
-        </div>
+      <div class="row">
+        @if(isset($kategoris) && $kategoris->isNotEmpty())
+          @foreach($kategoris as $kategori)
+            <div class="col-md-4 col-12">
+              <ul class="list-unstyled">
+                <li>
+                  <h5><a href="{{ route('kategori.show', $kategori->kode_kategori) }}">{{ $kategori->nama_kategori }}</a></h5>
+                </li>
+              </ul>
+            </div>
+          @endforeach
+        @else
+          <p>No categories available.</p>
+        @endif
+      </div>
     </div>
-</div>
-
-@yield('content')
-
-
-
-
+  </div>
   
+
+  @yield('content')
+
+</body>
+</html>

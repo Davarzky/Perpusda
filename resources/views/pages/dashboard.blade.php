@@ -1,16 +1,35 @@
 @extends('layout.footer')
 
-
 @extends('layout.content')
 
 @section('content')
+@php
+    // Ambil data peminjaman per hari
+    $dataPeminjamHariIni = \App\Models\PeminjamanModel::whereDate('tanggal_pinjam', today())->count();
+
+    // Ambil buku yang belum dikembalikan (peminjaman yang tidak memiliki tanggal kembali)
+    $bukuBelumKembali = \App\Models\PeminjamanModel::whereNull('tanggal_kembali')->get();
+    $dataBukuBelumKembali = $bukuBelumKembali->count();
+
+    // Ambil buku terfavorit berdasarkan banyaknya peminjaman
+    $bukuIds = $bukuBelumKembali->pluck('kode_buku'); // Pastikan Anda memiliki kolom ini di tabel peminjaman
+    $dataBukuTerfavorit = \App\Models\DetailPeminjamanModel::select('kode_buku')
+        ->whereIn('kode_buku', $bukuIds)
+        ->groupBy('kode_buku')
+        ->orderByRaw('COUNT(*) DESC')
+        ->limit(1)
+        ->get();
+    $jumlahBukuFavorit = $dataBukuTerfavorit->count();
+@endphp
+
+
     <div class="row">
         <div class="col-lg-4 col-12">
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="mt-3">
-                            <h3>62<sup style="font-size: 20px"></sup></h3>
+                            <h3>{{ $dataPeminjamHariIni }}</h3>
                             <p>Data Peminjam Per Hari</p>
                         </div>
                         <div class="icon">
@@ -29,7 +48,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="mt-3">
-                            <h3>147<sup style="font-size: 20px"></sup></h3>
+                            <h3>{{ $dataBukuBelumKembali }}</h3>
                             <p>Buku belum kembali</p>
                         </div>
                         <div class="icon">
@@ -48,7 +67,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="mt-3">
-                            <h3>22<sup style="font-size: 20px"></sup></h3>
+                            <h3>{{ $jumlahBukuFavorit }}</h3>
                             <p>Buku TerFavorit</p>
                         </div>
                         <div class="icon">
@@ -63,39 +82,24 @@
         </div>
 
         <div class="card">
-
             <div class="card-body">
                 <h5 class="card-title">Laporan<span>/Hari ini</span></h5>
 
                 <!-- Line Chart -->
-                <div id="reportsChart" style="min-height: 365px;">
-                    <div id="apexcharts73cc9u14" class="apexcharts-canvas apexcharts73cc9u14 apexcharts-theme-light"
-                        >
-                        <div class="apexcharts-xaxistooltip apexcharts-xaxistooltip-bottom apexcharts-theme-light"
-                            style="left: 115.038px; top: 302.2px;">
-                            <div class="apexcharts-xaxistooltip-text"
-                                style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; min-width: 73.4062px;">
-                                19/09/18 01:30</div>
-                        </div>
-                        <div
-                            class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light">
-                            <div class="apexcharts-yaxistooltip-text"></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="reportsChart" style="min-height: 365px;"></div>
 
                 <script>
                     document.addEventListener("DOMContentLoaded", () => {
                         new ApexCharts(document.querySelector("#reportsChart"), {
                             series: [{
                                 name: 'Data Peminjam Per Hari',
-                                data: [31, 40, 28, 51, 42, 82, 56],
+                                data: [31, 40, 28, 51, 42, 82, 56], // Ganti dengan data dinamis
                             }, {
                                 name: 'Buku belum kembali',
-                                data: [11, 32, 45, 32, 34, 52, 41]
+                                data: [11, 32, 45, 32, 34, 52, 41] // Ganti dengan data dinamis
                             }, {
                                 name: 'Buku Terfavorit',
-                                data: [15, 11, 32, 18, 9, 24, 11]
+                                data: [15, 11, 32, 18, 9, 24, 11] // Ganti dengan data dinamis
                             }],
                             chart: {
                                 height: 350,
@@ -143,8 +147,8 @@
                 <!-- End Line Chart -->
 
             </div>
-
         </div>
-    @endsection
+    </div>
+@endsection
 
-    @extends('layout.header')
+@extends('layout.header')

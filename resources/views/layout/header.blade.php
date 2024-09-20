@@ -82,7 +82,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/profile">
+              <a class="dropdown-item d-flex align-items-center" href="/admin/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -95,11 +95,17 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
+              <a class="dropdown-item d-flex align-items-center" href="#" 
+                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
               </a>
-            </li>
+          
+              <!-- Logout Form -->
+              <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+          </li>
 
           </ul><!-- End Profile Dropdown Items -->
         </li><!-- End Profile Nav -->

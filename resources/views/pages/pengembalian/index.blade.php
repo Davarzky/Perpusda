@@ -1,79 +1,35 @@
-
-
 @extends('layout.footer')
-
 @extends('layout.content')
+
 @section('content')
-<div class="container">
-    <h2>Detail Pengembalian</h2>
-    
-    <a href="/create-pengembalian"><button type="button" class="btn btn-primary mb-3">Tambah Pengembalian</button></a>
-    <table class="table">
+<div class="container mt-4">
+    <h2>Daftar Pengembalian Buku</h2>
+    <a href="{{ route('pengembalian.create') }}" class="btn btn-primary mb-3">Tambah Pengembalian</a>
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">ID pengembalian</th>
-                <th scope="col">Judul</th>
-                <th scope="col">Jumlah</th>
-                <th scope="col">Actions</th>
+                <th>NIS</th>
+                <th>Tanggal Kembali</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
+            @foreach($pengembalian as $item)
             <tr>
-                <th scope="row">1</th>
-                <td>PMB001</td>
-                <td>Dilan 1990</td>
-                <td>2</td>
+                <td>{{ $item->nisn }}</td>
+                <td>{{ $item->tanggal_kembali }}</td>
                 <td>
-                    <a href="/view-pengembalian/PMB001"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-pengembalian/PMB001" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
+                    <a href="{{ route('pengembalian.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('pengembalian.destroy', $item->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengembalian ini?')">Hapus</button>
+                    </form>
                 </td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>PMB002</td>
-                <td>Filosofi Teras</td>
-                <td>1</td>
-                <td>
-                    <a href="/view-pengembalian/PMB002"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-pengembalian/PMB002" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>PMB003</td>
-                <td>Atomic Habits</td>
-                <td>3</td>
-                <td>
-                    <a href="/view-pengembalian/PMB003"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-pengembalian/PMB003" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">4</th>
-                <td>PMB004</td>
-                <td>Psychology Of Money</td>
-                <td>1</td>
-                <td>
-                    <a href="/view-pengembalian/PMB004"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-pengembalian/PMB004" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">5</th>
-                <td>PMB005</td>
-                <td>Milea Suara dari Dilan</td>
-                <td>2</td>
-                <td>
-                    <a href="/view-pengembalian/PMB005"><button type="button" class="btn btn-info btn-sm">View</button></a>
-                    <a href="/delete-pengembalian/PMB005" onclick="return confirm('Are you sure you want to delete this item?')"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-                </td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
 @endsection
-
 @extends('layout.header')
-
-

@@ -8,11 +8,13 @@ use Illuminate\Http\Request;
 class SiswaController extends Controller
 {
     public function main(){
-        $data_siswa = SiswaModel::with('kelas')->get();
+        // Tambahkan pagination (misalnya 10 siswa per halaman)
+        $data_siswa = SiswaModel::with('kelas')->paginate(10); 
         return view('pages.siswa.index', [
             'data_siswa' => $data_siswa
         ]);
     }
+    
 
     public function add(){
         $kelass = KelasModel::all(); // Fetch all classes for the dropdown
@@ -65,4 +67,14 @@ class SiswaController extends Controller
         $siswa->delete();
         return redirect('/data-siswa');
     }
+    public function show($nis)
+{
+    $siswa = SiswaModel::where('nis', $nis)->first();
+
+    if ($siswa) {
+        return response()->json($siswa);
+    } else {
+        return response()->json(['message' => 'Siswa tidak ditemukan'], 404);
+    }
+}
 }

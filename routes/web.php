@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PengembalianController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman User
@@ -21,9 +23,7 @@ Route::get('/dashboard', function(){
 
 
 // Route Profile
-Route::get('/profile', function(){
-    return view('pages.profile');
-});
+
 
 // Route Siswa
 Route::get('/data-siswa', [SiswaController::class,'main']);
@@ -32,6 +32,7 @@ Route::post('/tambah', [SiswaController::class,'save']);
 Route::get('/edit/{nis}', [SiswaController::class,'edit']);
 Route::post('/edit/{nis}', [SiswaController::class,'update']);
 Route::get('/delete/{nis}', [SiswaController::class,'delete']);
+Route::get('/data-siswa/{nis}', [SiswaController::class, 'show']);
 
 
 // Route Kelas
@@ -52,37 +53,63 @@ Route::get('buku/{kode_buku}/edit', [BukuController::class, 'edit'])->name('buku
 Route::put('buku/{kode_buku}', [BukuController::class, 'update'])->name('buku.update');
 Route::delete('buku/{kode_buku}', [BukuController::class, 'destroy'])->name('buku.destroy');
 Route::get('buku/{kode_buku}', [BukuController::class, 'detail'])->name('buku.detail');
+Route::get('buku/{kode_buku}/show', [BukuController::class, 'show'])->name('buku.show');
 Route::get('/search', [BukuController::class, 'search'])->name('buku.search');
 
 
 
 
 // Route Admin
-Route::middleware('auth:admin')->group(function () {
-    Route::get('/admin/profile', [AdminController::class, 'index'])->name('admin.index');
-    Route::put('/admin/profile', [AdminController::class, 'update'])->name('admin.profile.update');
-});
+Route::get('/admin/profile', [AdminController::class, 'index'])->name('admin.index');
+
+// Route untuk memperbarui data profil admin
+Route::put('/admin/profile', [AdminController::class, 'update'])->name('admin.update');
 // Route Login
 
 Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login.form');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login');
+Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
+Route::get('/peminjaman/tambah', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+
+// Route to store a new peminjaman
+Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+Route::get('/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name('peminjaman.edit');
+Route::put('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
+Route::delete('/peminjaman/delete/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.delete');
+
+Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
+Route::get('/peminjaman/{id}', [PeminjamanController::class, 'showDetail'])->name('peminjaman.detail');
+
+// Route Pengembalian 
+Route::prefix('pengembalian')->group(function () {
+    Route::get('/', [PengembalianController::class, 'index'])->name('pengembalian.index');
+    Route::get('/create', [PengembalianController::class, 'create'])->name('pengembalian.create');
+    Route::post('/', [PengembalianController::class, 'store'])->name('pengembalian.store');
+    Route::get('/{id}/edit', [PengembalianController::class, 'edit'])->name('pengembalian.edit');
+    Route::put('/{id}', [PengembalianController::class, 'update'])->name('pengembalian.update');
+    Route::delete('/{id}', [PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
+    Route::get('/{id}', [PengembalianController::class, 'show'])->name('pengembalian.show');
+});
+
+
+
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/dashboard', function() {
+        return view('pages.dashboard');
+    })->name('dashboard');
+
+    // Rute admin lainnya...
+});
 // Route Kategori
 Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
 Route::get('/kategori/{kode_kategori}', [KategoriController::class, 'show'])->name('kategori.show');
 // Route Peminjaman
-Route::get('/data-peminjaman', function(){
-    return view('pages.peminjaman.index');
-});
-Route::get('/create-peminjaman', function(){
-    return view('pages.peminjaman.create');
-});
 
 
 // Route Pengembalian
-Route::get('/data-pengembalian', function(){
-    return view('pages.pengembalian.index');
-});
+
 
 // Route Laporan
 Route::get('/data-laporan', function(){

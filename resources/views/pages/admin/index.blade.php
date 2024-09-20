@@ -2,62 +2,57 @@
 @extends('layout.content')
 
 @section('content')
-<div class="container mx-auto mt-10">
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold mb-6">Admin Profile</h1>
 
-        <!-- Success message -->
-        @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
+<div class="container">
+    <h2>Admin Profile</h2>
 
-        <!-- Form for updating profile -->
-        <form action="{{ route('admin.profile.update') }}" method="POST">
-            @csrf
-            @method('PUT')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-            <!-- Username -->
-            <div class="mb-4">
-                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username:</label>
-                <input type="text" name="username" id="username" value="{{ old('username', $admin ? $admin->username : '') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                @error('username')
-                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                @enderror
-            </div>
+    <form method="POST" action="{{ route('admin.update') }}">
+        @csrf
+        @method('PUT')
 
-            <!-- Current Password -->
-            <div class="mb-4">
-                <label for="current_password" class="block text-gray-700 text-sm font-bold mb-2">Current Password:</label>
-                <input type="password" name="current_password" id="current_password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                @error('current_password')
-                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                @enderror
-            </div>
+        <!-- Username Field -->
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" name="username" class="form-control" value="{{ old('username', $admin->username) }}" required>
+            @error('username')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
 
-            <!-- New Password -->
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">New Password:</label>
-                <input type="password" name="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                @error('password')
-                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                @enderror
-            </div>
+        <!-- Current Password Field -->
+        <div class="form-group">
+            <label for="current_password">Current Password:</label>
+            <input type="password" name="current_password" class="form-control" placeholder="Enter current password">
+            @error('current_password')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
 
-            <!-- Confirm New Password -->
-            <div class="mb-6">
-                <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Confirm New Password:</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
+        <!-- New Password Field -->
+        <div class="form-group">
+            <label for="password">New Password:</label>
+            <input type="password" name="password" class="form-control" placeholder="Enter new password">
+            @error('password')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
 
-            <!-- Submit Button -->
-            <div class="flex items-center justify-between">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Update Profile
-                </button>
-            </div>
-        </form>
-    </div>
+        <!-- Confirm New Password Field -->
+        <div class="form-group">
+            <label for="password_confirmation">Confirm New Password:</label>
+            <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm new password">
+        </div>
+
+        <!-- Update Button -->
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
 </div>
+
 @endsection
+@extends('layout.header')

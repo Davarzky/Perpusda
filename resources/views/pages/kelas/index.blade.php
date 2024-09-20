@@ -5,8 +5,6 @@
 <div class="container">
     <h2>Data Kelas</h2>
 
-    
-
     <a href="{{ url('/kelas/tambah') }}" class="btn btn-primary mb-3">Tambah Data Kelas</a>
 
     <!-- Table -->
@@ -22,7 +20,7 @@
         <tbody>
             @foreach($data_kelas as $kls)
             <tr>
-                <th scope="row">{{ $loop->iteration }}</th>
+                <th scope="row">{{ $loop->iteration + ($data_kelas->currentPage() - 1) * $data_kelas->perPage() }}</th> <!-- Adjust numbering for pagination -->
                 <td>{{ $kls->tingkat }}</td>
                 <td>{{ $kls->jurusan }}</td>
                 <td>
@@ -37,7 +35,12 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Tampilkan Pagination Links -->
+    <div class="d-flex justify-content-center">
+        {{ $data_kelas->links('pagination::bootstrap-4') }}
+
+    </div>
 </div>
 @endsection
-
 @extends('layout.header')
