@@ -108,4 +108,5 @@
 
   </header><!-- End Header -->
 
+@yield('content')
   

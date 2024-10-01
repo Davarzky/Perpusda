@@ -4,23 +4,19 @@
 
 @section('content')
 @php
-    // Ambil data peminjaman per hari
     $dataPeminjamHariIni = \App\Models\PeminjamanModel::whereDate('tanggal_pinjam', today())->count();
 
-    // Ambil buku yang belum dikembalikan (peminjaman yang tidak memiliki tanggal kembali)
     $bukuBelumKembali = \App\Models\PeminjamanModel::whereNull('tanggal_kembali')->get();
     $dataBukuBelumKembali = $bukuBelumKembali->count();
 
-    // Ambil buku terfavorit berdasarkan banyaknya peminjaman
-    $bukuIds = $bukuBelumKembali->pluck('kode_buku'); // Pastikan Anda memiliki kolom ini di tabel peminjaman
-    $dataBukuTerfavorit = \App\Models\DetailPeminjamanModel::select('kode_buku')
-        ->whereIn('kode_buku', $bukuIds)
+    $dataBukuTerfavorit = \App\Models\DetailPeminjamanModel::select('kode_buku', \DB::raw('COUNT(kode_buku) as jumlah_pinjam'))
         ->groupBy('kode_buku')
-        ->orderByRaw('COUNT(*) DESC')
-        ->limit(1)
-        ->get();
-    $jumlahBukuFavorit = $dataBukuTerfavorit->count();
+        ->orderBy('jumlah_pinjam', 'DESC')
+        ->first();
+
+    $jumlahBukuFavorit = $dataBukuTerfavorit ? $dataBukuTerfavorit->jumlah_pinjam : 0;
 @endphp
+
 
 
     <div class="row">

@@ -45,7 +45,7 @@
             </a>
           </li>
           <li>
-            <a href="/data-pengembalian">
+            <a href="/pengembalian">
               <i class="bi bi-circle"></i><span>Pengembalian</span>
             </a>
           </li>

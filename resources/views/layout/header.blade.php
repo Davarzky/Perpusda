@@ -74,8 +74,13 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Dava Rizky</h6>
-              <span>Junior Developer</span>
+              @if(Auth::check()) <!-- Mengecek apakah pengguna sudah login -->
+              <h6>{{ Auth::user()->username }}</h6> <!-- Menggunakan nama user yang sudah login -->
+              <span>ADMIN PERPUSDA</span>
+          @else
+              <h6>Guest</h6> <!-- Jika tidak ada pengguna yang login -->
+              <span>Guest User</span>
+          @endif
             </li>
             <li>
               <hr class="dropdown-divider">
